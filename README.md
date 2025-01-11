@@ -1,10 +1,19 @@
-# Qwen2-VL多模态大模型微调实战
-[toc]
-## 相关介绍
+# Qwen2-VL多模态大模型微调实战 <a id="qwen2-vl多模态大模型微调实战"></a>
+- [Qwen2-VL多模态大模型微调实战](#qwen2-vl多模态大模型微调实战)
+  - [相关介绍](#相关介绍)
+  - [环境配置](#环境配置)
+  - [数据集下载](#数据集下载)
+  - [模型下载与加载](#模型下载与加载)
+  - [集成SwanLab](#集成swanlab)
+  - [开始微调](#开始微调)
+  - [训练结果](#训练结果)
+  - [推理LoRA微调后的模型](#推理lora微调后的模型)
+
+## 相关介绍## <a id="相关介绍"></a>
 
 Qwen2-VL是阿里通义实验室最新推出的多模态大模型。本文我们将简要介绍基于 transformers、peft 等框架，使用 Qwen2-VL-2B-Instruct 模型在**COCO2014图像描述** 上进行Lora微调训练，同时使用 [SwanLab](https://link.zhihu.com/?target=https%3A//github.com/swanhubx/swanlab) 监控训练过程与评估模型效果。
 
-## 环境配置
+## 环境配置<a id="环境配置"></a>
 
 确保电脑上至少有一张英伟达显卡（可打开任务管理器查看），并且已经安装好了CUDA环境
 
@@ -90,7 +99,7 @@ pip install torchvision
 
 其中，"from"是角色（user代表人类，assistant代表模型），"value"是聊天的内容，其中`<|vision_start|>`和`<|vision_end|>`是Qwen2-VL模型识别图像的标记，中间可以放图像的文件路径，也可以是URL。
 
-## 数据集下载
+## 数据集下载<a id="数据集下载"></a>
 
 - 下载coco_2014_caption数据集，可以通过[Modelscope](https://modelscope.cn/home)
 - 加载数据集，保存图像到本地
@@ -202,7 +211,7 @@ with open('data_vl.json', 'w', encoding='utf-8') as f:
 
 数据集准备完成
 
-## 模型下载与加载
+## 模型下载与加载<a id="模型下载与加载"></a>
 
 **这里是介绍，包括集成SwanLab功能都在train代码里**
 
@@ -223,7 +232,7 @@ model = Qwen2VLForConditionalGeneration.from_pretrained("./Qwen/Qwen2-VL-2B-Inst
 model.enable_input_require_grads()  # 开启梯度检查点时，要执行该方法
 ```
 
-## 集成SwanLab
+## 集成SwanLab<a id="集成Swanlab"></a>
 
 SwanLab是一个开源的模型训练记录工具，由本校（西电）团队开发，面向AI研究者，提供了训练可视化，自动日志记录，超参数记录，实验对比，多人协同等功能。
 
@@ -245,7 +254,7 @@ trainer = Trainer(
 
 ![image-20250110193203354](Qwen2-VL多模态大模型微调实战.assets/swanlab使用.png)
 
-## 开始微调
+## 开始微调<a id="开始微调"></a>
 
 代码执行目录结构
 
@@ -268,7 +277,7 @@ trainer = Trainer(
 
 train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
-## 训练结果
+## 训练结果<a id="训练结果"></a>
 
 ![2](Qwen2-VL多模态大模型微调实战.assets/训练结果图表.png)
 
@@ -306,7 +315,7 @@ train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
 可以看到生成了对图片的描述
 
-### 推理LoRA微调后的模型
+### 推理LoRA微调后的模型<a id="推理LoRA微调后的模型"></a>
 
 ```python
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor

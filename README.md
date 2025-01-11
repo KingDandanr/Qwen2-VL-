@@ -300,7 +300,7 @@ train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
 这里我们用两个图片测试了下
 
-![apple](Qwen2-VL多模态大模型微调实战.assets/apple.jpeg)	<img src="Qwen2-VL多模态大模型微调实战.assets\dandan.jpg" alt="dandan" style="zoom:25%;" />
+![apple](Qwen2-VL多模态大模型微调实战.assets/apple.jpeg)<img src="Qwen2-VL多模态大模型微调实战.assets\dandan.jpg" alt="dandan" width="25%" height="auto" />
 
 ![5](Qwen2-VL多模态大模型微调实战.assets/训练结果测试.png)
 

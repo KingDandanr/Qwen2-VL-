@@ -9,7 +9,7 @@
   - [训练结果](#训练结果)
   - [推理LoRA微调后的模型](#推理lora微调后的模型)
 
-## 相关介绍## <a id="相关介绍"></a>
+## 相关介绍 <a id="相关介绍"></a>
 
 Qwen2-VL是阿里通义实验室最新推出的多模态大模型。本文我们将简要介绍基于 transformers、peft 等框架，使用 Qwen2-VL-2B-Instruct 模型在**COCO2014图像描述** 上进行Lora微调训练，同时使用 [SwanLab](https://link.zhihu.com/?target=https%3A//github.com/swanhubx/swanlab) 监控训练过程与评估模型效果。
 

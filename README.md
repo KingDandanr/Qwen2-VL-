@@ -1,6 +1,6 @@
 # Qwen2-VL多模态大模型微调 图像识别
 
-[TOC]
+
 
 
 
@@ -71,7 +71,7 @@ pip install torchvision
 
 本节使用的是 coco_2014_caption 数据集，该数据集主要用于多模态（Image-to-Text）任务。
 
-![image-20250109225426972](images.assets\COCO数据集.png)
+![image-20250109225426972](images.assets/COCO数据集.png)
 
 本次任务，主要使用其中的前500张图像，并进行处理和格式微调，目标是组成如下格式的json文件：
 
@@ -162,7 +162,7 @@ else:
     print('coco_2014_caption目录已存在,跳过数据处理步骤')
 ```
 
-![1](images.assets\data2csv执行成功.png)	
+![1](images.assets/data2csv执行成功.png)	
 
 **同一目录下，用以下代码，将csv文件转换为json文件：**
 
@@ -197,7 +197,7 @@ with open('data_vl.json', 'w', encoding='utf-8') as f:
     json.dump(conversations, f, ensure_ascii=False, indent=2)
 ```
 
-![image-20250110191727758](images.assets\csv2json执行完成.png)
+![image-20250110191727758](images.assets/csv2json执行完成.png)
 
 此时目录下会多出两个文件：
 
@@ -247,7 +247,7 @@ trainer = Trainer(
 
 首次使用SwanLab，需要先在[官网](https://swanlab.cn/)注册一个账号，然后在用户设置页面复制你的API Key，然后在训练开始提示登录时粘贴即可，后续无需再次登录
 
-![image-20250110193203354](images.assets\swanlab使用.png)
+![image-20250110193203354](images.assets/swanlab使用.png)
 
 ## 开始微调
 
@@ -275,11 +275,11 @@ train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
 ## 训练结果
 
-![2](images.assets\训练结果图表.png)
+![2](images.assets/训练结果图表.png)
 
 
 
-![3](images.assets\训练结果图.png)
+![3](images.assets/训练结果图.png)
 
 从SwanLab图表中我们可以看到，lr的下降策略是线性下降，loss随epoch呈现下降趋势，而grad_norm则在上升。这种形态往往反映了模型有过拟合的风险，训练不要超过2个epoch。
 
@@ -299,15 +299,15 @@ train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
 这里我们用`vim`打开predict_qwen2_vl.py来查看训练结果
 
-![4](images.assets\预测图片.png)	
+![4](images.assets/预测图片.png)	
 
 更改这里需要预测的图片的路径
 
 这里我们用两个图片测试了下
 
-![apple](images.assets\apple.jpeg)	<img src="images.assets\dandan.jpg" alt="QQ图片20240722231535" style="zoom:25%;" />
+![apple](images.assets/apple.jpeg)	<img src="images.assets/dandan.jpg" alt="QQ图片20240722231535" style="zoom:25%;" />
 
-<img src="images.assets\训练结果测试.png" alt="5"  />
+<img src="images.assets/训练结果测试.png" alt="5"  />
 
 可以看到生成了对图片的描述
 

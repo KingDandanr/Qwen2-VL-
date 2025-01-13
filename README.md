@@ -305,7 +305,7 @@ train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
 这里我们用两个图片测试了下
 
-![apple](images.assets/apple.jpeg)	<img src="images.assets/dandan.jpg" alt="QQ图片20240722231535" style="zoom:25%;" />
+![apple](images.assets/apple.jpeg)	<img src="images.assets/dandan.jpg" style="zoom:25%;" />
 
 <img src="images.assets/训练结果测试.png" alt="5"  />
 

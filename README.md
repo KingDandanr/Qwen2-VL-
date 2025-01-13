@@ -1,29 +1,24 @@
-# Qwen2-VL多模态大模型微调实战 <a id="qwen2-vl多模态大模型微调实战"></a>
-- [Qwen2-VL多模态大模型微调实战](#qwen2-vl多模态大模型微调实战)
-  - [相关介绍](#相关介绍)
-  - [环境配置](#环境配置)
-  - [数据集下载](#数据集下载)
-  - [模型下载与加载](#模型下载与加载)
-  - [集成SwanLab](#集成swanlab)
-  - [开始微调](#开始微调)
-  - [训练结果](#训练结果)
-  - [推理LoRA微调后的模型](#推理lora微调后的模型)
+# Qwen2-VL多模态大模型微调实战
 
-## 相关介绍 <a id="相关介绍"></a>
+[TOC]
+
+
+
+## 相关介绍
 
 Qwen2-VL是阿里通义实验室最新推出的多模态大模型。本文我们将简要介绍基于 transformers、peft 等框架，使用 Qwen2-VL-2B-Instruct 模型在**COCO2014图像描述** 上进行Lora微调训练，同时使用 [SwanLab](https://link.zhihu.com/?target=https%3A//github.com/swanhubx/swanlab) 监控训练过程与评估模型效果。
 
-## 环境配置<a id="环境配置"></a>
+## 环境配置
 
 确保电脑上至少有一张英伟达显卡（可打开任务管理器查看），并且已经安装好了CUDA环境
 
-![显卡信息](Qwen2-VL多模态大模型微调实战.assets/显卡信息.png)
+![显卡信息](images.assets\显卡信息.png)
 
 安装Python（版本>=3.8）以及能够调用CUDA加速的PyTorch
 
-![查看自己电脑CUDA](Qwen2-VL多模态大模型微调实战.assets/查看自己电脑CUDA.png)
+![查看自己电脑CUDA](images.assets\查看自己电脑CUDA.png)
 
-![PyTorch下载](Qwen2-VL多模态大模型微调实战.assets/PyTorch下载.png)
+![PyTorch下载](images.assets\PyTorch下载.png)
 
 
 
@@ -76,7 +71,7 @@ pip install torchvision
 
 本节使用的是 coco_2014_caption 数据集，该数据集主要用于多模态（Image-to-Text）任务。
 
-![image-20250109225426972](Qwen2-VL多模态大模型微调实战.assets/COCO数据集.png)
+![image-20250109225426972](images.assets\COCO数据集.png)
 
 本次任务，主要使用其中的前500张图像，并进行处理和格式微调，目标是组成如下格式的json文件：
 
@@ -99,7 +94,7 @@ pip install torchvision
 
 其中，"from"是角色（user代表人类，assistant代表模型），"value"是聊天的内容，其中`<|vision_start|>`和`<|vision_end|>`是Qwen2-VL模型识别图像的标记，中间可以放图像的文件路径，也可以是URL。
 
-## 数据集下载<a id="数据集下载"></a>
+## 数据集下载
 
 - 下载coco_2014_caption数据集，可以通过[Modelscope](https://modelscope.cn/home)
 - 加载数据集，保存图像到本地
@@ -167,7 +162,7 @@ else:
     print('coco_2014_caption目录已存在,跳过数据处理步骤')
 ```
 
-![1](Qwen2-VL多模态大模型微调实战.assets/data2csv执行成功.png)	
+![1](images.assets\data2csv执行成功.png)	
 
 **同一目录下，用以下代码，将csv文件转换为json文件：**
 
@@ -202,7 +197,7 @@ with open('data_vl.json', 'w', encoding='utf-8') as f:
     json.dump(conversations, f, ensure_ascii=False, indent=2)
 ```
 
-![image-20250110191727758](Qwen2-VL多模态大模型微调实战.assets/csv2json执行完成.png)
+![image-20250110191727758](images.assets\csv2json执行完成.png)
 
 此时目录下会多出两个文件：
 
@@ -211,7 +206,7 @@ with open('data_vl.json', 'w', encoding='utf-8') as f:
 
 数据集准备完成
 
-## 模型下载与加载<a id="模型下载与加载"></a>
+## 模型下载与加载
 
 **这里是介绍，包括集成SwanLab功能都在train代码里**
 
@@ -232,7 +227,7 @@ model = Qwen2VLForConditionalGeneration.from_pretrained("./Qwen/Qwen2-VL-2B-Inst
 model.enable_input_require_grads()  # 开启梯度检查点时，要执行该方法
 ```
 
-## 集成SwanLab<a id="集成Swanlab"></a>
+## 集成SwanLab
 
 SwanLab是一个开源的模型训练记录工具，由本校（西电）团队开发，面向AI研究者，提供了训练可视化，自动日志记录，超参数记录，实验对比，多人协同等功能。
 
@@ -252,9 +247,9 @@ trainer = Trainer(
 
 首次使用SwanLab，需要先在[官网](https://swanlab.cn/)注册一个账号，然后在用户设置页面复制你的API Key，然后在训练开始提示登录时粘贴即可，后续无需再次登录
 
-![image-20250110193203354](Qwen2-VL多模态大模型微调实战.assets/swanlab使用.png)
+![image-20250110193203354](images.assets\swanlab使用.png)
 
-## 开始微调<a id="开始微调"></a>
+## 开始微调
 
 代码执行目录结构
 
@@ -270,6 +265,7 @@ trainer = Trainer(
 代码功能如下：
 
 1. 下载并加载Qwen2-VL-2B-Instruct模型
+
 2. 加载数据集，取前496条数据参与训练，4条数据进行主观评测
 3. 配置Lora，参数为r=64, lora_alpha=16, lora_dropout=0.05
 4. 使用SwanLab记录训练过程，包括超参数、指标和最终的模型输出结果
@@ -277,13 +273,13 @@ trainer = Trainer(
 
 train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
-## 训练结果<a id="训练结果"></a>
+## 训练结果
 
-![2](Qwen2-VL多模态大模型微调实战.assets/训练结果图表.png)
+![2](images.assets\训练结果图表.png)
 
 
 
-![3](Qwen2-VL多模态大模型微调实战.assets/训练结果图.png)
+![3](images.assets\训练结果图.png)
 
 从SwanLab图表中我们可以看到，lr的下降策略是线性下降，loss随epoch呈现下降趋势，而grad_norm则在上升。这种形态往往反映了模型有过拟合的风险，训练不要超过2个epoch。
 
@@ -303,19 +299,19 @@ train_qwen2_vl.py详细代码可去GitHub仓库查看，这里不过多赘述
 
 这里我们用`vim`打开predict_qwen2_vl.py来查看训练结果
 
-![4](Qwen2-VL多模态大模型微调实战.assets/预测图片.png)	
+![4](images.assets\预测图片.png)	
 
 更改这里需要预测的图片的路径
 
 这里我们用两个图片测试了下
 
-![apple](Qwen2-VL多模态大模型微调实战.assets/apple.jpeg)<img src="Qwen2-VL多模态大模型微调实战.assets\dandan.jpg" alt="dandan" width="25%" height="auto" />
+![apple](images.assets\apple.jpeg)	<img src="images.assets\dandan.jpg" alt="QQ图片20240722231535" style="zoom:25%;" />
 
-![5](Qwen2-VL多模态大模型微调实战.assets/训练结果测试.png)
+<img src="images.assets\训练结果测试.png" alt="5"  />
 
 可以看到生成了对图片的描述
 
-### 推理LoRA微调后的模型<a id="推理LoRA微调后的模型"></a>
+### 推理LoRA微调后的模型
 
 ```python
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
@@ -379,5 +375,4 @@ output_text = processor.batch_decode(
 )
 print(output_text)
 ```
-
 

@@ -12,13 +12,13 @@ Qwen2-VL是阿里通义实验室最新推出的多模态大模型。本文我们
 
 确保电脑上至少有一张英伟达显卡（可打开任务管理器查看），并且已经安装好了CUDA环境
 
-![显卡信息](images.assets\显卡信息.png)
+![显卡信息](images.assets/显卡信息.png)
 
 安装Python（版本>=3.8）以及能够调用CUDA加速的PyTorch
 
-![查看自己电脑CUDA](images.assets\查看自己电脑CUDA.png)
+![查看自己电脑CUDA](images.assets/查看自己电脑CUDA.png)
 
-![PyTorch下载](images.assets\PyTorch下载.png)
+![PyTorch下载](images.assets/PyTorch下载.png)
 
 
 
